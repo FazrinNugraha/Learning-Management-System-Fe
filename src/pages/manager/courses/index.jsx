@@ -1,5 +1,6 @@
 import React from 'react'
 import CardCourses from './card'
+import { Link } from 'react-router-dom'
 
 export default function ManageCoursePage() {
   return (
@@ -12,18 +13,16 @@ export default function ManageCoursePage() {
           </p>
         </div>
         <div className="flex items-center gap-3">
-          <a
-            href="#"
+          <Link to="#"
             className="w-fit rounded-full border border-[#060A23] p-[14px_20px] font-semibold text-nowrap"
           >
             Import File
-          </a>
-          <a
-            href="create-new-course.html"
+          </Link>
+          <Link to="/manager/courses/create"
             className="w-fit rounded-full p-[14px_20px] font-semibold text-[#FFFFFF] bg-[#662FFF] text-nowrap"
           >
             New Course
-          </a>
+          </Link>
         </div>
       </header>
 
