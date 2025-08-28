@@ -10,9 +10,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@ckeditor/ckeditor5-build-classic": "^41.4.2",
+    "@ckeditor/ckeditor5-react": "^11.0.0",
     "@tailwindcss/vite": "^4.1.11",
     "@tanstack/react-query": "^5.84.2",
     "axios": "^1.11.0",
+    "ckeditor5": "^46.0.2",
     "prop-types": "^15.8.1",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
