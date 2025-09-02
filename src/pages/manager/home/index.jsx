@@ -53,7 +53,7 @@ export default function ManagerHomePage() {
                 <div className="flex flex-col flex-1 rounded-[20px] p-5 gap-5 bg-white shadow-[0_4px_4px_0_#E0E2EF]">
                     <div className="relative flex items-center justify-center shrink-0 m-auto rounded-full w-[230px] h-[230px]">
                         <div className="absolute rounded-full w-[230px] h-[230px] z-10"
-                            style= {{background: "conic-gradient (#C2ACFF 0% 25%, #662FFF 25% 100%)"}}>
+                            style= {{background: "conic-gradient(#C2ACFF 0% 25%, #662FFF 25% 100%)"}}>
                         </div>
                         <div className="flex justify-center items-center w-[130px] h-[130px] rounded-full bg-white z-10">
                             <p class="w-fit h-fit text-center font-bold text-lg leading-[27px]">Our<br />Rapport</p>
