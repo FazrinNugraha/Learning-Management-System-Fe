@@ -10,7 +10,6 @@ import ManageContentCreatePage from "../pages/manager/course-content-create";
 import ManageCoursePreviewPage from "../pages/manager/course-preview";
 import ManageStudentsPage from "../pages/manager/students";
 import StudentPage from "../pages/student/StudentOverview";
-import SuccsessCheckoutPage from "../pages/SuccessCheckout";
 import SuccessCheckoutPage from "../pages/SuccessCheckout";
 
 
