@@ -2,7 +2,6 @@ import { createBrowserRouter } from "react-router-dom";
 import ManagerHomePage from "../pages/manager/home";
 import SigninPage from "../pages/SignIn";
 import SignUpPage from "../pages/SignUp";
-import SuccsesCheckoutPage from "../pages/SuccsesCheckout";
 import LayoutDashboard from "../components/layout";
 import ManageCoursePage from "../pages/manager/courses";
 import ManageCreateCoursePage from "../pages/manager/create-course";
@@ -11,6 +10,7 @@ import ManageContentCreatePage from "../pages/manager/course-content-create";
 import ManageCoursePreviewPage from "../pages/manager/course-preview";
 import ManageStudentsPage from "../pages/manager/students";
 import StudentPage from "../pages/student/StudentOverview";
+import SuccsessCheckoutPage from "../pages/SuccessCheckout";
 
 
 
@@ -28,8 +28,8 @@ const router = createBrowserRouter([
     element:<SignUpPage/>
   },
   {
-    path: "/succses-checkout",
-    element: <SuccsesCheckoutPage/>
+    path: "/success-checkout",
+    element: <SuccsessCheckoutPage/>
   },
   {
     path: "/manager",
