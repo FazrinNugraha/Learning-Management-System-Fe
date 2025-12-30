@@ -2,7 +2,6 @@ import CardCourses from './card'
 import { Link, useLoaderData } from 'react-router-dom'
 
 export default function ManageCoursePage() {
-  // Ambil data dari loader, pastikan courses SELALU array
   const { data: courses = [] } = useLoaderData()
 
   console.log('courses data in component:', courses)
@@ -47,13 +46,14 @@ export default function ManageCoursePage() {
         ) : (
           courses.map((item) => (
             <CardCourses
-              key={item.id}
-              id={item.id}
+              key={item._id}
+              id={item._id}
               name={item.name}
               category={item.category?.name}
-              imageUrl={item.thumbnail_url}
-              totalStudents={item.total_students}
+              imageUrl={item.thumbnailUrl}
+              totalStudents={item.totalStudents}
             />
+
           ))
         )}
       </section>
