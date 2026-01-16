@@ -15,8 +15,10 @@ export default function LayoutDashboard({isAdmin = true}) {
       <Outlet/>
     ): (
       <div className="flex min-h-screen">
-        <Sidebar is isAdmin= {isAdmin}/>
-        <main className="flex flex-col flex-1 gap-[30px] p-[30px] ml-[290px]">
+        <div className="hidden lg:block">
+          <Sidebar isAdmin={isAdmin}/>
+        </div>
+        <main className="flex flex-col flex-1 gap-[15px] md:gap-[30px] p-[15px] md:p-[30px] lg:ml-[290px]">
             <Header/>
             <Outlet/>
         </main>

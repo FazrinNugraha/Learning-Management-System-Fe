@@ -5,21 +5,21 @@ import StudentsItem from './student-item'
 export default function ManageStudentsPage() {
   return (
     <>
-          <header class="flex items-center justify-between gap-[30px]">
+          <header className="flex flex-col md:flex-row items-start md:items-center justify-between gap-[15px] md:gap-[30px]">
                 <div>
-                    <h1 class="font-extrabold text-[28px] leading-[42px]">Manage Students</h1>
-                    <p class="text-[#838C9D] mt-[1]">Keep your employee or student happy</p>
+                    <h1 className="font-extrabold text-xl md:text-[28px] leading-[32px] md:leading-[42px]">Manage Students</h1>
+                    <p className="text-[#838C9D] mt-1 text-sm md:text-base">Keep your employee or student happy</p>
                 </div>
-                <div class="flex items-center gap-3">
-                    <Link to="#" class="w-fit rounded-full border border-[#060A23] p-[14px_20px] font-semibold text-nowrap">
+                <div className="flex flex-wrap items-center gap-2 md:gap-3 w-full md:w-auto">
+                    <Link to="#" className="flex-1 md:flex-none rounded-full border border-[#060A23] p-[12px_16px] md:p-[14px_20px] font-semibold text-sm md:text-base text-center md:text-nowrap">
                         Import File
                     </Link>
-                    <Link to="#" class="w-fit rounded-full p-[14px_20px] font-semibold text-[#FFFFFF] bg-[#662FFF] text-nowrap">
+                    <Link to="#" className="flex-1 md:flex-none rounded-full p-[12px_16px] md:p-[14px_20px] font-semibold text-sm md:text-base text-[#FFFFFF] bg-[#662FFF] text-center md:text-nowrap">
                         Add Student
                     </Link>
                 </div>
             </header>
-            <section id="CourseList" class="flex flex-col w-full rounded-[30px] p-[30px] gap-[30px] bg-[#F8FAFB]">
+            <section id="CourseList" className="flex flex-col w-full rounded-[30px] p-[20px] md:p-[30px] gap-[15px] md:gap-[30px] bg-[#F8FAFB]">
               
                <StudentsItem
                imageUrl={"/assets/images/photos/photo-3.png"}
