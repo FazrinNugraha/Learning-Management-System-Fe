@@ -13,8 +13,9 @@ import StudentPage from "../pages/student/StudentOverview";
 import SuccessCheckoutPage from "../pages/SuccessCheckout";
 import { ROLE_MANAGER } from "../utils/const";
 import secureLocalStorage from "react-secure-storage";
-import{ getCourses } from "../services/getCourses";
+import{ getCourseById, getCourses } from "../services/getCourses";
 import { getCategories } from "../services/getCourses";
+
 
 
 
@@ -70,7 +71,19 @@ const router = createBrowserRouter([
         path:'/manager/courses/create',
         loader: async ()=> {
           const categories = await getCategories()
-          return categories
+
+          return {categories, course: null}
+        },
+        element:<ManageCreateCoursePage/>
+      },
+      {
+        path:'/manager/courses/edit/:id',
+        loader: async ({params})=> {
+          const categories = await getCategories()
+          const course = await getCourseById(params.id)
+
+          console.log("course detail loader:", course);
+          return {categories, course}
         },
         element:<ManageCreateCoursePage/>
       },
