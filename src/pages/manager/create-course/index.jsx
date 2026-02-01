@@ -7,9 +7,14 @@ import { set } from "zod";
 import { useMutation } from "@tanstack/react-query";
 import { createCourse } from "../../../services/getCourses";
 import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import { updateCourseSchema } from "../../../utils/zodSchema";
+import { updateCourse } from "../../../services/getCourses";
 
 export default function ManageCreateCoursePage() {
   const data = useLoaderData();
+
+  const {id} = useParams();
 
   const {
     register,
@@ -17,28 +22,42 @@ export default function ManageCreateCoursePage() {
     formState: { errors },
     setValue,
   } = useForm({
-    resolver: zodResolver(createCourseSchema),
+    resolver: zodResolver(data.course === null ? createCourseSchema : updateCourseSchema),
+    defaultValues: {
+      name: data?.course?.name,
+      tagline: data?.course?.tagline,
+      categoryId: data?.course?.category,
+      description: data?.course?.description,
+    }
   });
 
   const navigate = useNavigate()
 
-  const { isLoading, mutateAsync } = useMutation({
+  const mutateCreate = useMutation({
     mutationFn: (data) => createCourse(data),
   });
 
+  const mutateUpdate = useMutation({
+    mutationFn: (data) => updateCourse(id, data),
+  });
 
-  const onSubmit = async (data) => {
+
+  const onSubmit = async (values) => {
     console.log(data);
 
     try {
       const formData = new FormData();
-      formData.append("name", data.name);
-      formData.append("thumbnail", data.thumbnail);
-      formData.append("tagline", data.tagline);
-      formData.append("categoryId", data.categoryId);
-      formData.append("description", data.description);
+      formData.append("name", values.name);
+      formData.append("thumbnail", file);
+      formData.append("tagline", values.tagline);
+      formData.append("categoryId", values.categoryId);
+      formData.append("description", values.description);
 
-      await mutateAsync(formData);
+      if (data.course === null) {
+        await mutateCreate.mutateAsync(formData);
+      } else {
+        await mutateUpdate.mutateAsync(formData);
+      }
       navigate("/manager/courses");
 
     } catch (error) {
@@ -119,7 +138,7 @@ export default function ManageCreateCoursePage() {
 
             <img
               id="thumbnail-preview"
-              src={file ? URL.createObjectURL(file) : ""}
+              src={file ? URL.createObjectURL(file) : null}
               className={`w-full h-full object-cover ${file !== null ? "block" : "hidden"}`}
               alt="thumbnail"
             />
@@ -245,7 +264,7 @@ export default function ManageCreateCoursePage() {
           </button>
           <button
             type="submit"
-            disabled={isLoading}
+            disabled={data?.course ? mutateUpdate.isLoading : mutateCreate.isLoading}
             className="w-full rounded-full p-[14px_20px] font-semibold text-[#FFFFFF] bg-[#662FFF] text-nowrap"
           >
             Create Now
