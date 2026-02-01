@@ -83,7 +83,7 @@ const router = createBrowserRouter([
           const course = await getCourseById(params.id)
 
           console.log("course detail loader:", course);
-          return {categories, course}
+          return {categories, course: course?.data}
         },
         element:<ManageCreateCoursePage/>
       },
