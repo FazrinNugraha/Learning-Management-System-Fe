@@ -15,3 +15,13 @@ export const createCourse = async (data) =>
       headers: { "Content-Type": "multipart/form-data" },
     })
     .then((response) => response.data);
+
+export const updateCourse = async (id, data) =>
+  apiInstanceAuth
+    .put(`/courses/${id}`, data, {
+      headers: { "Content-Type": "multipart/form-data" },
+    })
+    .then((response) => response.data);
+
+export const deleteCourse = async (id) =>
+  apiInstanceAuth.delete(`/courses/${id}`).then((response) => response.data);
