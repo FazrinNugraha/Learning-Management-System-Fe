@@ -4,6 +4,11 @@ import "react-quill-new/dist/quill.snow.css";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { mutateContentSchema } from "../../../utils/zodSchema";
+import { useMutation } from "@tanstack/react-query";
+import { data } from "autoprefixer";
+import { createContent } from "../../../services/getCourses";
+import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function ManageContentCreatePage() {
   const {
@@ -16,10 +21,31 @@ export default function ManageContentCreatePage() {
     resolver: zodResolver(mutateContentSchema),
   });
 
+  const {isLoading, mutateAsync} = useMutation({
+    mutationFn: (data) => createContent(data),
+    onSuccess: (data) => {
+      console.log("success create content", data);
+    }
+  })
+
+  const {id} = useParams();
+
+  const navigate = useNavigate(); 
+
   const type = watch("type");
 
-  const onSubmit = (values) => {
-    console.log("submit content form:", values);
+  const onSubmit = async (values) => {
+    try {
+      await mutateAsync({
+        ...values,
+        courseId: id
+      })
+
+      navigate(`/manager/courses/${id}`)
+    } catch (error) {
+      console.log("error create content", error);
+      
+    }
   };
 
   return (
@@ -173,6 +199,7 @@ export default function ManageContentCreatePage() {
         <div className="flex items-center gap-[14px]">
           <button
             type="button"
+            disabled={isLoading}
             className="w-full rounded-full border p-[14px_20px] font-semibold"
           >
             Save as Draft

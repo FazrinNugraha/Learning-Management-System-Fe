@@ -14,7 +14,8 @@ export default function TableContent({ details, courseId }) {
         <h2 className="font-bold text-[22px] leading-[33px]">Course Content</h2>
         <Link
           to={`/manager/courses/${courseId}/create`}
-          className="w-fit rounded-full p-[14px_20px] font-semibold text-[#FFFFFF] bg-[#662FFF] text-nowrap"
+          className="w-fit rounded-full p-[14px_20px] font-semibold text-[#FFFFFF] bg-[#662FFF] text-nowrap  hover:-translate-y-1 hover:shadow-lg hover:bg-white-600
+              active:translate-y-0.5"
         >
           Add Content
         </Link>
