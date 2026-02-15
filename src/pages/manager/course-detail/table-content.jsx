@@ -1,7 +1,6 @@
 import React from "react";
 import ContentItem from "./content-item";
 import { Link } from "react-router-dom";
-import { Table } from "ckeditor5";
 import PropTypes from "prop-types";
 
 export default function TableContent({ details, courseId }) {
@@ -14,7 +13,7 @@ export default function TableContent({ details, courseId }) {
       <div className="header flex items-center justify-between">
         <h2 className="font-bold text-[22px] leading-[33px]">Course Content</h2>
         <Link
-          to={`/manager/courses/edit/${courseId}/add-content`}
+          to={`/manager/courses/${courseId}/create`}
           className="w-fit rounded-full p-[14px_20px] font-semibold text-[#FFFFFF] bg-[#662FFF] text-nowrap"
         >
           Add Content

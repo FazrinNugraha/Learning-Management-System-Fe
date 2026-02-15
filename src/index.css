@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-body{
+body {
     font-family: "Poppins";
     color: #060A23;
     display: flex;
@@ -15,6 +15,68 @@ body{
 
 /* Hide scrollbar for IE, Edge, and Firefox */
 .hide-scrollbar {
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;     /* Firefox */
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
+}
+
+/* React Quill Custom Styles */
+.quill {
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid #CFDBEF;
+    background: white;
+}
+
+.quill .ql-toolbar {
+    border: none !important;
+    border-bottom: 1px solid #CFDBEF !important;
+    background: #F8FAFB;
+    padding: 10px 16px !important;
+    font-family: "Poppins", sans-serif;
+}
+
+.quill .ql-container {
+    border: none !important;
+    font-family: "Poppins", sans-serif;
+    font-size: 14px;
+    min-height: 150px;
+}
+
+.quill .ql-editor {
+    padding: 16px !important;
+    min-height: 150px;
+    color: #060A23;
+}
+
+.quill .ql-editor.ql-blank::before {
+    color: #838C9D;
+    font-style: normal;
+    font-family: "Poppins", sans-serif;
+}
+
+.quill .ql-toolbar button:hover,
+.quill .ql-toolbar button.ql-active {
+    color: #662FFF !important;
+}
+
+.quill .ql-toolbar button:hover .ql-stroke,
+.quill .ql-toolbar button.ql-active .ql-stroke {
+    stroke: #662FFF !important;
+}
+
+.quill .ql-toolbar button:hover .ql-fill,
+.quill .ql-toolbar button.ql-active .ql-fill {
+    fill: #662FFF !important;
+}
+
+.quill .ql-toolbar .ql-picker-label:hover,
+.quill .ql-toolbar .ql-picker-label.ql-active {
+    color: #662FFF !important;
+}
+
+.quill .ql-toolbar .ql-picker-label:hover .ql-stroke,
+.quill .ql-toolbar .ql-picker-label.ql-active .ql-stroke {
+    stroke: #662FFF !important;
 }
