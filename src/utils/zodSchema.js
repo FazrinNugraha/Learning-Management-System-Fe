@@ -21,9 +21,32 @@ export const updateCourseSchema = createCourseSchema.partial({
 })
 
 export const mutateContentSchema = z.object({
-    title: z.string().min(5),
-    type: z.string(5),
+    title: z.string().min(5,{message: "Title must be at least 5 characters"}),
+    type: z.string().min(3, {message: "Please select a content type"}),
     youtubeId: z.string().optional(),
-    text: z.string(),
-    courseId: z.string().min(5),
+    text: z.string().optional()
+    
+})
+.superRefine((val, ctx) => {
+    const parseVideoId = z.string().min(4).safeParse(val.youtubeId)
+    const parseText = z.string().min(4).safeParse(val.text)
+
+    if(val.type === "video" ) {
+      if(!parseVideoId.success) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: "Youtube ID is required for video content",  
+            path: ["youtubeId"]  
+        })
+      }
+    }
+    if(val.type === "text" ) {
+       if(!parseText.success) {
+         ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: "Text is required for text content",  
+            path: ["text"]  
+        })
+       }
+    }
 })
