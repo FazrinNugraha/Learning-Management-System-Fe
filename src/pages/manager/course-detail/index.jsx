@@ -90,7 +90,7 @@ export default function ManageCourseDetailPage() {
           </div>
         </div>
       </section>
-      <TableContent />
+      <TableContent details={course?.details ?? []} courseId={course?._id}/>
     </>
   );
 }

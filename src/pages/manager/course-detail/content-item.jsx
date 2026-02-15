@@ -5,9 +5,9 @@ import { Link } from 'react-router-dom'
 export default function ContentItem({id, index, type, title, coursesId }) {
   return (
                 <div className="card flex items-center gap-5">
-                    <div className="relative flex shrink-0 w-[140px] h-[110px] ">
-                        <p className="absolute -top-[10px] -left-[10px] flex shrink-0 w-[30px] h-[30px] rounded-full items-center justify-center text-center bg-[#662FFF] text-white">
-                            <span className="font-bold text-sm leading-[21px]">{index}</span>
+                    <div className="relative flex shrink-0 w-35 h-27.5 ">
+                        <p className="absolute -top-2.5 -left-[10px] flex shrink-0 w-[30px] h-[30px] rounded-full items-center justify-center text-center bg-[#662FFF] text-white">
+                            <span className="font-bold text-sm leading-5.25">{index}</span>
                         </p>
                         <div className="rounded-[20px] bg-[#D9D9D9] overflow-hidden">
                             <img src={`/assets/images/thumbnails/cover-${type}.png`} className="w-full h-full object-cover" alt="thumbnail"/>
@@ -33,9 +33,9 @@ export default function ContentItem({id, index, type, title, coursesId }) {
 }
 
 ContentItem.PropTypes={
-    id: PropTypes.number.isRequired,
+    id: PropTypes.string.isRequired,
     index: PropTypes.number.isRequired,
     type: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
-    coursesId: PropTypes.number.isRequired
+    coursesId: PropTypes.string.isRequired
 }

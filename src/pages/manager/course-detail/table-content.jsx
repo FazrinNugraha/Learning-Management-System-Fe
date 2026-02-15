@@ -1,49 +1,37 @@
-import React from 'react'
-import ContentItem from './content-item'
-import { Link } from 'react-router-dom'
+import React from "react";
+import ContentItem from "./content-item";
+import { Link } from "react-router-dom";
+import { Table } from "ckeditor5";
+import PropTypes from "prop-types";
 
-export default function TableContent() {
+export default function TableContent({ details, courseId }) {
+  console.log("details content:", details);
   return (
-            <section id="CourseList" className="flex flex-col w-full rounded-[30px] p-[30px] gap-[30px] bg-[#F8FAFB]">
-                <div className="header flex items-center justify-between">
-                    <h2 className="font-bold text-[22px] leading-[33px]">Course Content</h2>
-                    <Link to="/manager/courses/1/create" className="w-fit rounded-full p-[14px_20px] font-semibold text-[#FFFFFF] bg-[#662FFF] text-nowrap">
-                        Add Content
-                        </Link>
-                </div>
-               <ContentItem
-                id={1}
-                index={1}
-                type={"text"}
-                title={"Install VsCode"}
-                coursesId={2}
-                />
+    <section
+      id="CourseList"
+      className="flex flex-col w-full rounded-[30px] p-[30px] gap-[30px] bg-[#F8FAFB]"
+    >
+      <div className="header flex items-center justify-between">
+        <h2 className="font-bold text-[22px] leading-[33px]">Course Content</h2>
+        <Link
+          to={`/manager/courses/edit/${courseId}/add-content`}
+          className="w-fit rounded-full p-[14px_20px] font-semibold text-[#FFFFFF] bg-[#662FFF] text-nowrap"
+        >
+          Add Content
+        </Link>
+      </div>
 
-                   <ContentItem
-                id={2}
-                index={2}
-                type={"video"}
-                title={"Tutorial React Pemula"}
-                coursesId={3}
-                />
-
-                   <ContentItem
-                id={3}
-                index={3}
-                type={"video"}
-                title={"Cara install Sql Server"}
-                coursesId={4}
-                />
-
-                   <ContentItem
-                id={4}
-                index={4}
-                type={"text"}
-                title={"Panduan Slicing Front End"}
-                coursesId={5}
-                />
-
-                <div id="Pagination" className="flex items-center gap-3">
+      {details.map((content, index) => (
+        <ContentItem
+          key={content._id}
+          type={content.type}
+          title={content.title}
+          id={content._id}
+          index={index + 1}
+          coursesId={courseId}
+        />
+      ))}
+      {/* <div id="Pagination" className="flex items-center gap-3">
                     <button type="button" className="flex shrink-0 w-9 h-9 rounded-full items-center justify-center text-center transition-all duration-300 hover:bg-[#662FFF] hover:text-white hover:border-0 bg-[#662FFF] text-white">
                         <span className="font-semibold text-sm leading-[21px]">1</span>
                     </button>
@@ -59,7 +47,12 @@ export default function TableContent() {
                     <button type="button" className="flex shrink-0 w-9 h-9 rounded-full items-center justify-center text-center transition-all duration-300 hover:bg-[#662FFF] hover:text-white hover:border-0 border border-[#060A23]">
                         <span className="font-semibold text-sm leading-[21px]">5</span>
                     </button>
-                </div>
-            </section>
-  )
+                </div> */}
+    </section>
+  );
 }
+
+TableContent.prototype = {
+  details: PropTypes.array,
+  courseid: PropTypes.string,
+};
