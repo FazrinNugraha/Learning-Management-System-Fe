@@ -36,3 +36,8 @@ export const getDetailContent = async (id) =>
     .get(`/courses/contents/${id}`)
     .then((response) => response.data);
 
+export const updateContent = async (data, id) =>
+  apiInstanceAuth
+    .put(`/courses/contents/${id}`, data)
+    .then((response) => response.data);
+

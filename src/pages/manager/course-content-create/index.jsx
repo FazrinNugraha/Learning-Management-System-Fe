@@ -6,12 +6,17 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { mutateContentSchema } from "../../../utils/zodSchema";
 import { useMutation } from "@tanstack/react-query";
 import { data } from "autoprefixer";
-import { createContent } from "../../../services/getCourses";
+import { createContent, updateContent } from "../../../services/getCourses";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useLoaderData } from "react-router-dom";
 
 export default function ManageContentCreatePage() {
+
+  const { id, contentId } = useParams();
+
+  const navigate = useNavigate();
+
   const content = useLoaderData();
 
   console.log("content", content);
@@ -25,27 +30,46 @@ export default function ManageContentCreatePage() {
     watch,
   } = useForm({
     resolver: zodResolver(mutateContentSchema),
+    defaultValues: {
+      title: content?.title,
+      type: content?.type,
+      youtubeId: content?.youtubeId,
+      text: content?.text
+    }
   });
 
-  const { isLoading, mutateAsync } = useMutation({
+  const mutateCreateContent = useMutation({
     mutationFn: (data) => createContent(data),
     onSuccess: (data) => {
       console.log("success create content", data);
     }
   })
 
-  const { id } = useParams();
+  const mutateUpdateContent = useMutation({
+    mutationFn: (data) => updateContent(data, contentId),
+    onSuccess: (data) => {
+      console.log("success update content", data);
+    }
+  })
 
-  const navigate = useNavigate();
+
 
   const type = watch("type");
 
   const onSubmit = async (values) => {
     try {
-      await mutateAsync({
-        ...values,
-        courseId: id
-      })
+      if (content === undefined) {
+        await mutateCreateContent.mutateAsync({
+          ...values,
+          courseId: id,
+        })
+      } else {
+        await mutateUpdateContent.mutateAsync({
+          ...values,
+          courseId: id,
+          contentId: contentId
+        })
+      }
 
       navigate(`/manager/courses/${id}`)
     } catch (error) {
@@ -206,7 +230,7 @@ export default function ManageContentCreatePage() {
         <div className="flex items-center gap-[14px]">
           <button
             type="button"
-            disabled={isLoading}
+            disabled={mutateCreateContent.isLoading || mutateUpdateContent.isLoading}
             className="w-full rounded-full border p-[14px_20px] font-semibold"
           >
             Save as Draft
@@ -214,6 +238,7 @@ export default function ManageContentCreatePage() {
 
           <button
             type="submit"
+            disabled={content === undefined ? mutateCreateContent.isLoading : mutateUpdateContent.isLoading}
             className="w-full rounded-full p-[14px_20px] font-semibold text-white bg-[#662FFF]"
           >
             {content === undefined ? "Add" : "Edit"} Content Now
