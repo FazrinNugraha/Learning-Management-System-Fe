@@ -1,8 +1,29 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
+import { Link, useRevalidator } from "react-router-dom";
+import { useMutation } from "@tanstack/react-query";
+import { deleteDetailContent } from "../../../services/getCourses";
 
 export default function ContentItem({ id, index, type, title, coursesId }) {
+
+  const revalidator = useRevalidator();
+
+  const { isLoading, mutateAsync } = useMutation({
+    mutationFn: () => deleteDetailContent(id),
+
+  })
+
+  const handleDelete = async () => {
+    try {
+      await mutateAsync();
+
+      revalidator.revalidate();
+
+
+    } catch (error) {
+      console.log("error delete content", error);
+    }
+  }
   return (
     <div className="card flex items-center gap-5">
       <div className="relative flex shrink-0 w-35 h-27.5 ">
@@ -42,10 +63,12 @@ export default function ContentItem({ id, index, type, title, coursesId }) {
         </Link>
         <button
           type="button"
+          disabled={isLoading}
+          onClick={handleDelete}
           className="w-fit rounded-full p-[14px_20px] bg-[#FF435A] font-semibold text-white text-nowrap hover:-translate-y-1 hover:shadow-lg hover:bg-white-600
               active:translate-y-0.5"
         >
-          Delete
+          {isLoading ? "Deleting..." : "Delete"}
         </button>
       </div>
     </div>

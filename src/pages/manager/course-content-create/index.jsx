@@ -205,6 +205,7 @@ export default function ManageContentCreatePage() {
 
             <ReactQuill
               theme="snow"
+              value={watch("text") || ""}
               placeholder="Tulis konten materi di sini..."
               modules={{
                 toolbar: [
