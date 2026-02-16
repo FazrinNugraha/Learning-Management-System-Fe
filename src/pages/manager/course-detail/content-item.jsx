@@ -34,7 +34,7 @@ export default function ContentItem({ id, index, type, title, coursesId }) {
       </div>
       <div className="flex justify-end items-center gap-3">
         <Link
-          to={`/manager/courses${coursesId}/edit/${id}`}
+          to={`/manager/courses/${coursesId}/edit/${id}`}
           className="w-fit rounded-full border border-[#060A23] p-[14px_20px] font-semibold text-nowrap  hover:-translate-y-1 hover:shadow-lg hover:bg-white-600
               active:translate-y-0.5"
         >

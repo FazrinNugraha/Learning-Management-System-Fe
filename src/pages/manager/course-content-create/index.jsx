@@ -9,28 +9,34 @@ import { data } from "autoprefixer";
 import { createContent } from "../../../services/getCourses";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { useLoaderData } from "react-router-dom";
 
 export default function ManageContentCreatePage() {
+  const content = useLoaderData();
+
+  console.log("content", content);
+
   const {
     register,
     handleSubmit,
     setValue,
+    trigger,
     formState: { errors },
     watch,
   } = useForm({
     resolver: zodResolver(mutateContentSchema),
   });
 
-  const {isLoading, mutateAsync} = useMutation({
+  const { isLoading, mutateAsync } = useMutation({
     mutationFn: (data) => createContent(data),
     onSuccess: (data) => {
       console.log("success create content", data);
     }
   })
 
-  const {id} = useParams();
+  const { id } = useParams();
 
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   const type = watch("type");
 
@@ -44,7 +50,7 @@ export default function ManageContentCreatePage() {
       navigate(`/manager/courses/${id}`)
     } catch (error) {
       console.log("error create content", error);
-      
+
     }
   };
 
@@ -61,7 +67,7 @@ export default function ManageContentCreatePage() {
           Course
         </span>
         <span className="last-of-type:after:content-[''] last-of-type:font-semibold">
-          Add Content
+          {content === undefined ? "Add" : "Edit"} Content
         </span>
       </div>
 
@@ -76,7 +82,7 @@ export default function ManageContentCreatePage() {
           </div>
           <div>
             <h1 className="font-extrabold text-[28px] leading-[42px]">
-              Add Content
+              {content === undefined ? "Add" : "Edit"} Content
             </h1>
             <p className="text-[#838C9D] mt-[1]">
               Give a best content for the course
@@ -187,6 +193,7 @@ export default function ManageContentCreatePage() {
               }}
               onChange={(value) => {
                 setValue("text", value);
+                trigger("text");
               }}
             />
             <span className="error-message text-[#FF435A]">
@@ -209,7 +216,7 @@ export default function ManageContentCreatePage() {
             type="submit"
             className="w-full rounded-full p-[14px_20px] font-semibold text-white bg-[#662FFF]"
           >
-            Add Content Now
+            {content === undefined ? "Add" : "Edit"} Content Now
           </button>
         </div>
       </form>
