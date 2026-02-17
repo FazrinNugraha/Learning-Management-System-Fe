@@ -6,8 +6,8 @@ export const getCourses = async () =>
 export const getCategories = async () =>
   apiInstanceAuth.get("/categories").then((response) => response.data);
 
-export const getCourseById = async (id) =>
-  apiInstanceAuth.get(`/courses/${id}`).then((response) => response.data);
+export const getCourseById = async (id, isPreview = false) =>
+  apiInstanceAuth.get(`/courses/${id}${isPreview ? "?preview=true" : ""}`).then((response) => response.data);
 
 export const createCourse = async (data) =>
   apiInstanceAuth

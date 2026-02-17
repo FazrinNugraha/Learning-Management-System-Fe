@@ -38,7 +38,7 @@ export default function ManageCourseDetailPage() {
             Edit Course
           </Link>
           <Link
-            to="/manager/courses/1/preview"
+            to={`/manager/courses/${id}/preview`}
             className="w-fit rounded-full p-[14px_20px] font-semibold text-[#FFFFFF] bg-[#662FFF] text-nowrap hover:-translate-y-1 hover:shadow-lg hover:bg-white-600
               active:translate-y-0.5"
           >
@@ -92,7 +92,7 @@ export default function ManageCourseDetailPage() {
           </div>
         </div>
       </section>
-      <TableContent details={course?.details ?? []} courseId={course?._id}/>
+      <TableContent details={course?.details ?? []} courseId={course?._id} />
     </>
   );
 }
