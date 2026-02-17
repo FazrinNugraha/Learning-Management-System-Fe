@@ -134,7 +134,7 @@ export default function ManageContentCreatePage() {
               {...register("title")}
               type="text"
               className="appearance-none outline-none w-full py-3 font-semibold !bg-transparent"
-              placeholder="Write better name for your course"
+              placeholder="Enter content title"
             />
           </div>
           <span className="error-message text-[#FF435A]">
@@ -155,7 +155,7 @@ export default function ManageContentCreatePage() {
 
             <select
               {...register("type")}
-              className="appearance-none outline-none w-full py-3 px-2 -mx-2 font-semibold !bg-transparent"
+              className="appearance-none outline-none w-full py-3 font-semibold !bg-transparent cursor-pointer"
             >
               <option value="">Select content type</option>
               <option value="video">Video</option>
@@ -189,7 +189,7 @@ export default function ManageContentCreatePage() {
                 {...register("youtubeId")}
                 type="text"
                 className="appearance-none outline-none w-full py-3 font-semibold !bg-transparent"
-                placeholder="Write tagline for better copy"
+                placeholder="Enter Youtube Video ID"
               />
             </div>
             <span className="error-message text-[#FF435A]">
@@ -232,7 +232,8 @@ export default function ManageContentCreatePage() {
           <button
             type="button"
             disabled={mutateCreateContent.isLoading || mutateUpdateContent.isLoading}
-            className="w-full rounded-full border p-[14px_20px] font-semibold"
+            className="w-full rounded-full border p-[14px_20px] font-semibold hover:-translate-y-1 hover:shadow-lg hover:bg-white-600
+              active:translate-y-0.5"
           >
             Save as Draft
           </button>
@@ -240,7 +241,8 @@ export default function ManageContentCreatePage() {
           <button
             type="submit"
             disabled={content === undefined ? mutateCreateContent.isLoading : mutateUpdateContent.isLoading}
-            className="w-full rounded-full p-[14px_20px] font-semibold text-white bg-[#662FFF]"
+            className="w-full rounded-full p-[14px_20px] font-semibold text-white bg-[#662FFF] hover:-translate-y-1 hover:shadow-lg hover:bg-white-600
+              active:translate-y-0.5"
           >
             {content === undefined ? "Add" : "Edit"} Content Now
           </button>
