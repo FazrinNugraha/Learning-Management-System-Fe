@@ -15,6 +15,9 @@ import { ROLE_MANAGER } from "../utils/const";
 import secureLocalStorage from "react-secure-storage";
 import { getCourseById, getCourses, getDetailContent } from "../services/getCourses";
 import { getCategories } from "../services/getCourses";
+import ManageCreateStudentPage from "../pages/manager/create-student";
+import { getStudents } from "../services/studentsService";
+
 
 
 
@@ -120,7 +123,16 @@ const router = createBrowserRouter([
       },
       {
         path: '/manager/students',
+        loader: async () => {
+          const students = await getStudents()
+
+          return students?.data
+        },
         element: <ManageStudentsPage />
+      },
+      {
+        path: '/manager/students/create',
+        element: <ManageCreateStudentPage />
       }
     ]
   },

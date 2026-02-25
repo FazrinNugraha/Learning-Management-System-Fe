@@ -1,8 +1,11 @@
-import { Link } from 'react-router-dom'
+import { Link, useLoaderData } from 'react-router-dom'
 import React from 'react'
 import StudentsItem from './student-item'
 
+
 export default function ManageStudentsPage() {
+const students = useLoaderData()
+
   return (
     <>
           <header className="flex flex-col md:flex-row items-start md:items-center justify-between gap-[15px] md:gap-[30px]">
@@ -14,33 +17,21 @@ export default function ManageStudentsPage() {
                     <Link to="#" className="flex-1 md:flex-none rounded-full border border-[#060A23] p-[12px_16px] md:p-[14px_20px] font-semibold text-sm md:text-base text-center md:text-nowrap">
                         Import File
                     </Link>
-                    <Link to="#" className="flex-1 md:flex-none rounded-full p-[12px_16px] md:p-[14px_20px] font-semibold text-sm md:text-base text-[#FFFFFF] bg-[#662FFF] text-center md:text-nowrap">
+                    <Link to="/manager/students/create" className="flex-1 md:flex-none rounded-full p-[12px_16px] md:p-[14px_20px] font-semibold text-sm md:text-base text-[#FFFFFF] bg-[#662FFF] text-center md:text-nowrap">
                         Add Student
                     </Link>
                 </div>
             </header>
             <section id="CourseList" className="flex flex-col w-full rounded-[30px] p-[20px] md:p-[30px] gap-[15px] md:gap-[30px] bg-[#F8FAFB]">
-              
-               <StudentsItem
-               imageUrl={"/assets/images/photos/photo-3.png"}
-               name={"Angga Setiawan"}
-               TotalCourse={100}
-               id={1}
-               />
-
-                  <StudentsItem
-               imageUrl={"/assets/images/photos/photo-4.png"}
-               name={"Yuliana"}
-               TotalCourse={90}
-               id={2}
-               />
-
-                  <StudentsItem
-               imageUrl={"/assets/images/photos/photo-5.png"}
-               name={"Bagus Baik"}
-               TotalCourse={80}
-               id={3}
-               />
+                {students?.map((item) => (
+                    <StudentsItem
+                    key={item._id}
+                    id={item._id}
+                    imageUrl={item.photo_url}
+                    name={item.name}
+                    TotalCourse={item.courses?.length}
+                    />
+                ))}
                 {/* <div id="Pagination" class="flex items-center gap-3">
                     <button type="button" class="flex shrink-0 w-9 h-9 rounded-full items-center justify-center text-center transition-all duration-300 hover:bg-[#662FFF] hover:text-white hover:border-0 bg-[#662FFF] text-white">
                         <span class="font-semibold text-sm leading-[21px]">1</span>
