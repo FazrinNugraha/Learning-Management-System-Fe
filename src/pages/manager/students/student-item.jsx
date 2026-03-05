@@ -1,8 +1,31 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
+import { useMutation } from "@tanstack/react-query";
+import { deleteStudent } from "../../../services/studentsService";
+import { toast } from "react-toastify";
+import { useRevalidator } from "react-router-dom";
 
 export default function StudentsItem({ imageUrl, name, TotalCourse, id }) {
+ const {isLoading, mutateAsync} = useMutation ({
+  mutationFn: () => deleteStudent(id),
+  onSuccess: () => {
+    toast.success("Student deleted successfully");
+  }
+ })
+
+ const revalidator = useRevalidator();
+
+   const handleDelete = async () => {
+    try { 
+      await mutateAsync();
+      revalidator.revalidate();
+
+    } catch (error) {
+      console.error("Error deleting course:", error);
+      
+    }
+  }
   return (
     <div className="card flex items-center gap-5">
       <div className="relative flex shrink-0 w-20 h-20">
@@ -32,9 +55,11 @@ export default function StudentsItem({ imageUrl, name, TotalCourse, id }) {
         </Link>
         <button
           type="button"
+          disabled={isLoading}
+          onClick={handleDelete}
           className="w-fit rounded-full p-[14px_20px] bg-[#FF435A] font-semibold text-white text-nowrap"
         >
-          Delete
+          {isLoading ? "Deleting..." : "Delete"}
         </button>
       </div>
     </div>
