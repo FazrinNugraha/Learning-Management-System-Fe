@@ -7,6 +7,9 @@ import { useMutation } from "@tanstack/react-query";
 import { createStudent } from "../../../services/studentsService";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { updateStudent } from "../../../services/studentsService";
+import { updateStudentSchema } from "../../../utils/zodSchema";
+import { useParams } from "react-router-dom";
 
 export default function ManageCreateStudentPage() {
   const student = useLoaderData()
@@ -18,7 +21,11 @@ export default function ManageCreateStudentPage() {
     formState: { errors },
     setValue,
   } = useForm({
-    resolver: zodResolver(createStudentSchema),
+    resolver: zodResolver(student === undefined ? createStudentSchema : updateStudentSchema),
+    defaultValues: {
+      name: student?.name,
+      email: student?.email,
+    }
   });
 
   const navigate = useNavigate();
@@ -31,7 +38,12 @@ export default function ManageCreateStudentPage() {
       formData.append("password", values.password);
       formData.append("avatar", values.photo);
 
-      await mutateAsync(formData);
+     if (student === undefined) {
+      await mutateCreate.mutateAsync(formData);
+     } else {
+      await mutateUpdate.mutateAsync(formData);
+     }
+
       navigate("/manager/students");
       toast.success("Student created successfully");
     } catch (error) {
@@ -39,8 +51,12 @@ export default function ManageCreateStudentPage() {
     }
   };
 
-  const { isLoading, mutateAsync } = useMutation({
+  const mutateCreate = useMutation({
     mutationFn: (data) => createStudent(data),
+  });
+
+    const mutateUpdate = useMutation({
+    mutationFn: (data) => updateStudent(data, student?._id),
   });
 
   const [file, setFile] = useState(null);
@@ -51,7 +67,7 @@ export default function ManageCreateStudentPage() {
       <header className="flex items-center justify-between gap-[30px]">
         <div>
           <h1 className="font-extrabold text-[28px] leading-[42px]">
-            Add Student
+            {student === undefined ? "Add Student" : "Update Student"}
           </h1>
           <p className="text-[#838C9D] mt-[1]">Create new future for company</p>
         </div>
@@ -200,10 +216,10 @@ export default function ManageCreateStudentPage() {
           </button>
           <button
             type="submit"
-            disabled={isLoading}
+            disabled={student === undefined ? mutateCreate.isLoading : mutateUpdate.isLoading}
             className="w-full rounded-full p-[14px_20px] font-semibold text-[#FFFFFF] bg-[#662FFF] text-nowrap"
           >
-            Add Now
+            {student === undefined ? "Add Now" : "Update Now"}
           </button>
         </div>
       </form>
