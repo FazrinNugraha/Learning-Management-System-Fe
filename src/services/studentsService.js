@@ -11,3 +11,11 @@ export const createStudent = async (data) =>
     })
     .then((response) => response.data);
 
+export const updateStudent = async (data, id) =>
+  apiInstanceAuth
+    .put(`/students/${id}`, data, {
+      headers: { "Content-Type": "multipart/form-data" },
+    })
+    .then((response) => response.data);
+
+export const deleteStudent = async (id) => apiInstanceAuth.delete(`/students/${id}`).then(res => res.data);
