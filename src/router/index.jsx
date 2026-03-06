@@ -16,7 +16,9 @@ import secureLocalStorage from "react-secure-storage";
 import { getCourseById, getCourses, getDetailContent } from "../services/getCourses";
 import { getCategories } from "../services/getCourses";
 import ManageCreateStudentPage from "../pages/manager/create-student";
-import { getStudentById, getStudents } from "../services/studentsService";
+import { getStudentById, getStudents, getStudentsByCourseId } from "../services/studentsService";
+import StudentCourseList from "../pages/manager/student-course";
+import StudentForm from "../pages/manager/student-course/student-form";
 
 
 
@@ -137,11 +139,28 @@ const router = createBrowserRouter([
       {
         path: '/manager/students/edit/:id',
         loader: async ({ params }) => {
-          const student = await getStudentById(params.id)
+          const student = await getStudentsByCourseId(params.id)
 
           return student?.data
         },
         element: <ManageCreateStudentPage />
+      },
+      {
+        path: '/manager/courses/students/:id',
+        loader: async ({ params }) => {
+          const students = await getStudentsByCourseId(params.id)
+          return students?.data
+        },
+        element: <StudentCourseList />
+      },
+      {
+        path: '/manager/courses/students/:id/add',
+        loader: async () => {
+          const students = await getStudents()
+
+          return students?.data
+        },
+        element: <StudentForm />
       }
     ]
   },

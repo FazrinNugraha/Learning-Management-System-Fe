@@ -1,4 +1,4 @@
-import React, { use } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { useMutation } from "@tanstack/react-query";
@@ -12,23 +12,20 @@ export default function CardCourses({
   category,
   name,
 }) {
-
   const revalidator = useRevalidator();
 
-  const{isLoading, mutateAsync } = useMutation({
-    mutationFn: () => deleteCourse(id)
-  })
+  const { isLoading, mutateAsync } = useMutation({
+    mutationFn: () => deleteCourse(id),
+  });
 
   const handleDelete = async () => {
     try {
       await mutateAsync();
       revalidator.revalidate();
-
     } catch (error) {
       console.error("Error deleting course:", error);
-      
     }
-  }
+  };
 
   return (
     <div className="card flex flex-col md:flex-row items-start md:items-center gap-3 md:gap-5">
@@ -67,6 +64,24 @@ export default function CardCourses({
       </div>
 
       <div className="flex justify-end items-center gap-2 md:gap-3 w-full md:w-auto">
+        <Link
+          to={`/manager/courses/students/${id}`}
+          className="w-full md:w-fit rounded-full border border-[#060A23] p-[12px_16px] md:p-[14px_20px] font-semibold text-sm md:text-base text-center md:text-nowrap
+          transition-all duration-200 ease-out
+              hover:-translate-y-1 hover:shadow-lg hover:bg-white-600
+              active:translate-y-0.5"
+        >
+          Student
+        </Link>
+                <Link
+          to={`/manager/courses/${id}`}
+          className="w-full md:w-fit rounded-full border border-[#060A23] p-[12px_16px] md:p-[14px_20px] font-semibold text-sm md:text-base text-center md:text-nowrap
+          transition-all duration-200 ease-out
+              hover:-translate-y-1 hover:shadow-lg hover:bg-white-600
+              active:translate-y-0.5"
+        >
+          Manage
+        </Link>
         <button
           type="button"
           onClick={handleDelete}
@@ -81,15 +96,6 @@ export default function CardCourses({
         >
           Delete
         </button>
-        <Link
-          to={`/manager/courses/${id}`}
-          className="w-full md:w-fit rounded-full border border-[#060A23] p-[12px_16px] md:p-[14px_20px] font-semibold text-sm md:text-base text-center md:text-nowrap
-          transition-all duration-200 ease-out
-              hover:-translate-y-1 hover:shadow-lg hover:bg-white-600
-              active:translate-y-0.5"
-        >
-          Manage
-        </Link>
       </div>
     </div>
   );
