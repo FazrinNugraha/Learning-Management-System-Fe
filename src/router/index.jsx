@@ -19,6 +19,7 @@ import ManageCreateStudentPage from "../pages/manager/create-student";
 import { getStudentById, getStudents, getStudentsByCourseId } from "../services/studentsService";
 import StudentCourseList from "../pages/manager/student-course";
 import StudentForm from "../pages/manager/student-course/student-form";
+import { getOverviews } from "../services/overviewService";
 
 
 
@@ -59,6 +60,11 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
+        loader: async () => {
+          const overviews = await getOverviews()
+
+          return overviews?.data
+        },
         element: <ManagerHomePage />
       },
       {
