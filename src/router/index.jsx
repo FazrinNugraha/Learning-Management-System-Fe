@@ -16,10 +16,14 @@ import secureLocalStorage from "react-secure-storage";
 import { getCourseById, getCourses, getDetailContent } from "../services/getCourses";
 import { getCategories } from "../services/getCourses";
 import ManageCreateStudentPage from "../pages/manager/create-student";
-import { getStudentById, getStudents, getStudentsByCourseId } from "../services/studentsService";
+import { getStudentById, getStudents } from "../services/studentsService";
+import { getStudentsByCourseId } from "../services/getCourses";
 import StudentCourseList from "../pages/manager/student-course";
 import StudentForm from "../pages/manager/student-course/student-form";
 import { getOverviews } from "../services/overviewService";
+import { ROLE_STUDENT, STORAGE_KEY } from "../utils/const";
+import { getMe } from "../services/authService";
+import { getCoursesStudent } from "../services/studentsService";
 
 
 
@@ -32,6 +36,23 @@ const router = createBrowserRouter([
   },
   {
     path: "/manager/sign-in",
+    loader: async () => {
+      const session = secureLocalStorage.getItem(STORAGE_KEY)
+
+      if (session && session.role === 'manager') {
+        try {
+          await getMe()
+          // Token masih valid, redirect ke dashboard
+          throw redirect('/manager')
+        } catch (error) {
+          if (error instanceof Response) throw error // redirect response
+          // Token expired/invalid, hapus session & tampilkan login
+          secureLocalStorage.removeItem(STORAGE_KEY)
+        }
+      }
+
+      return null
+    },
     element: <SigninPage />
   },
   {
@@ -46,15 +67,20 @@ const router = createBrowserRouter([
     path: "/manager",
     id: ROLE_MANAGER,
     loader: async () => {
-      const session = secureLocalStorage.getItem('STORAGE_KEY')
-
-      console.log("session router:", session);
+      const session = secureLocalStorage.getItem(STORAGE_KEY)
 
       if (!session || session.role !== 'manager') {
         throw redirect('/manager/sign-in')
       }
 
-      return session
+      try {
+        await getMe()
+        return session
+      } catch (error) {
+        // Token expired/invalid — hapus session & redirect ke login
+        secureLocalStorage.removeItem(STORAGE_KEY)
+        throw redirect('/manager/sign-in')
+      }
     },
     element: <LayoutDashboard />,
     children: [
@@ -172,17 +198,62 @@ const router = createBrowserRouter([
   },
   {
     path: "/student",
+    id: ROLE_STUDENT,
+    loader: async () => {
+      const session = secureLocalStorage.getItem(STORAGE_KEY)
+
+      if (!session || session.role !== 'student') {
+        throw redirect('/student/sign-in')
+      }
+
+      try {
+        await getMe()
+        return session
+      } catch (error) {
+        // Token expired/invalid — hapus session & redirect ke login
+        secureLocalStorage.removeItem(STORAGE_KEY)
+        throw redirect('/student/sign-in')
+      }
+    },
     element: <LayoutDashboard isAdmin={false} />,
     children: [
       {
         index: true,
+        loader: async () => {
+          const courses = await getCoursesStudent()
+
+          return courses?.data
+        },
         element: <StudentPage />
       },
       {
         path: '/student/detail-courses/:id',
-        element: <ManageCoursePreviewPage />
+         loader: async ({ params }) => {
+          const course = await getCourseById(params.id, true)
+          return course?.data
+        },
+        element: <ManageCoursePreviewPage isAdmin={false} />
       }
     ]
+  },
+  {
+    path: "/student/sign-in",
+    loader: async () => {
+      const session = secureLocalStorage.getItem(STORAGE_KEY)
+
+      if (session && session.role === 'student') {
+        try {
+          await getMe()
+          throw redirect('/student')
+        } catch (error) {
+          if (error instanceof Response) throw error
+          secureLocalStorage.removeItem(STORAGE_KEY)
+        }
+      }
+
+      return null
+    },
+    element: <SigninPage type="student"/>
   }
 ])
 export default router

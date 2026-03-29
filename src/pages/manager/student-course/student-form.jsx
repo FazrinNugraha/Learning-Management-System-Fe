@@ -4,10 +4,9 @@ import { useForm } from "react-hook-form";
 import { useLoaderData } from "react-router-dom";
 import { addStudentToCourseSchema,  } from "../../../utils/zodSchema";
 import { useMutation } from "@tanstack/react-query";
-import { createCourse } from "../../../services/getCourses";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import { addStudentsByCourseId } from "../../../services/studentsService";
+import { addStudentsByCourseId } from "../../../services/getCourses";
 
 
 export default function ManageCreateCoursePage() {
@@ -27,23 +26,20 @@ export default function ManageCreateCoursePage() {
   const navigate = useNavigate()
 
   const {isLoading, mutateAsync} = useMutation({
-    mutationFn: (data) => addStudentsByCourseId(data. id),
+    mutationFn: (formData) => addStudentsByCourseId(formData, id),
   });
 
 
 
 
   const onSubmit = async (values) => {
-    console.log(data);
+    console.log(values);
 
     try {
-
-      navigate(`/manager/courses/students/${id}`);
-
       await mutateAsync(values);
-
+      navigate(`/manager/courses/students/${id}`);
     } catch (error) {
-      console.error("Error creating FormData:", error);
+      console.error("Error adding student:", error);
     }
   };
 
@@ -71,8 +67,8 @@ export default function ManageCreateCoursePage() {
         className="flex flex-col w-[550px] rounded-[30px] p-[30px] gap-[30px] bg-[#F8FAFB]"
       >
         <div className="flex flex-col gap-[10px]">
-          <label htmlFor="category" className="font-semibold">
-            Select Category
+          <label htmlFor="studentId" className="font-semibold">
+            Select Student
           </label>
           <div className="flex items-center w-full rounded-full border border-[#CFDBEF] gap-3 px-5 transition-all duration-300 focus-within:ring-2 focus-within:ring-[#662FFF]">
             <img
