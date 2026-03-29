@@ -70,5 +70,5 @@ export const updateStudentSchema = createStudentSchema.omit({
 })
 
 export const addStudentToCourseSchema = z.object({
-    studentId: z.string().min(5),
+    studentId: z.string().min(1, "Please select a student"),
 })

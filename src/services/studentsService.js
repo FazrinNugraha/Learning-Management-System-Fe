@@ -19,9 +19,4 @@ export const updateStudent = async (data, id) =>
     .then((response) => response.data);
 
 export const deleteStudent = async (id) => apiInstanceAuth.delete(`/students/${id}`).then(res => res.data);
-
-export const getStudentsByCourseId = async (id) => apiInstanceAuth.get(`/courses/students/${id}`).then(res => res.data); 
-export const addStudentsByCourseId = async (data, id) => apiInstanceAuth.post(`/courses/students/${id}`, data).then(res => res.data); 
-export const deleteStudentsByCourseId = async (data, id) => apiInstanceAuth.put(`/courses/students/${id}`, data).then(res => res.data); 
-
-
+export const getCoursesStudent = async () => apiInstanceAuth.get(`/students/courses`).then(res => res.data);

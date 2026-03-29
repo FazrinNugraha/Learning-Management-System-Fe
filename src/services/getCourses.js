@@ -46,3 +46,8 @@ export const deleteDetailContent = async (id) =>
     .delete(`/courses/contents/${id}`)
     .then((response) => response.data);
 
+// Course - Student relation
+export const getStudentsByCourseId = async (id) => apiInstanceAuth.get(`/courses/students/${id}`).then(res => res.data);
+export const addStudentsByCourseId = async (data, id) => apiInstanceAuth.post(`/courses/students/${id}`, data).then(res => res.data);
+export const deleteStudentsByCourseId = async (data, id) => apiInstanceAuth.put(`/courses/students/${id}`, data).then(res => res.data);
+

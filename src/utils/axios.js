@@ -29,4 +29,26 @@ apiInstanceAuth.interceptors.request.use(
   (error) => Promise.reject(error)
 )
 
+// 🔴 Handle token expired — auto logout & redirect ke sign-in
+apiInstanceAuth.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401) {
+      const session = secureLocalStorage.getItem(STORAGE_KEY)
+      const role = session?.role
+
+      // Hapus session yang expired
+      secureLocalStorage.removeItem(STORAGE_KEY)
+
+      // Redirect ke sign-in sesuai role
+      if (role === 'student') {
+        window.location.href = '/student/sign-in'
+      } else {
+        window.location.href = '/manager/sign-in'
+      }
+    }
+    return Promise.reject(error)
+  }
+)
+
 export default apiInstance
